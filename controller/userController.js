@@ -4,8 +4,8 @@ const USER_ROLE = require('../model/userRoleModel')
 
  const create_user = async(req,res)=>{
     try{
-        const users = await USER_ROLE.create(req.body);
-        res.status(201).json({users})
+         await USER_ROLE.create(req.body);
+        res.status(201).json({msg:'User created successfully'})
 
     }catch(error){
         console.log(error)
@@ -17,6 +17,7 @@ const USER_ROLE = require('../model/userRoleModel')
 const getALL_users = async(req,res)=>{
     try{
        const users = await USER_ROLE.find({});
+      if(users.length < 1)return res.json({msg:'No users found'})
        res.status(200).json({users})
     }catch(error){
         console.log(error)
@@ -27,14 +28,14 @@ const getALL_users = async(req,res)=>{
 // update users, u -- for update
 const update_user = async(req,res)=>{
     try{
-        const{userId} = req.params;
+        const{id:userId} = req.params;
         const user = await USER_ROLE.findOneAndUpdate({_id:userId},
             req.body,{
                 new:true,
                 runValidators:true
             })
             
-            res.status(200).json({user})
+            res.status(200).json({msg:'User updated successfully'})
         }catch(error){
             console.log(error)
             res.status(500).json({msg:error})
@@ -47,7 +48,7 @@ const delete_user = async(req,res)=>{
         const{id:userId} = req.params;
         const user = await USER_ROLE.findOneAndDelete({_id:userId})
             
-            res.status(200).json({user})
+            res.status(200).json({msg: 'User deleted successfully'})
         }catch(error){
             console.log(error)
             res.status(500).json({msg:error})

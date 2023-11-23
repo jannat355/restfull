@@ -5,8 +5,10 @@ const connect = require('./db/mongoDB')
 const morgan = require('morgan')
 const USER_ROLE = require('./model/userRoleModel')
 const userRouter =  require('./router/userRouter')
+const cors =require('cors')
 
 // middleware
+app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
